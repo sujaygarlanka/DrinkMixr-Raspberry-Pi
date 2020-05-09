@@ -84,7 +84,7 @@ def main():
                     order = r.json()
                     display_order(order)
                     display.println()
-                    display.print("Waiting to detect a cup...")
+                    display.print("Waiting to detect two cup...")
                     while (distance.get() > 20.0):
                         time.sleep(.5)
                     display.clearln()
