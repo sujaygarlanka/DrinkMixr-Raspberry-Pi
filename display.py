@@ -128,7 +128,7 @@ class Display:
         if height == None:
             height = self.height
         video = Video(self.disp, width, height, file_path)
-        video.run()
+        video.play()
         
     def clear(self, x=0, y=0, width=None, height=None):
         if width == None:
