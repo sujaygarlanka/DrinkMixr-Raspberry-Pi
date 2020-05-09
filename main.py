@@ -84,7 +84,7 @@ def main():
                     order = r.json()
                     display_order(order)
                     display.println()
-                    display.print("Waiting to detect two cup...")
+                    display.print("Waiting to detect a cup...")
                     while (distance.get() > 20.0):
                         time.sleep(.5)
                     display.clearln()
@@ -94,7 +94,7 @@ def main():
                 else:
                     if should_refresh_screen:
                         display.clear()
-                        display.println("Waiting for an order...")
+                        display.println("Waiting for two order...")
                         display.displayImage("/home/pi/DrinkMixr-Raspberry-Pi/media/drink.png", x=85, y=40, height=200, width=150)
                         should_refresh_screen = False
             except:
