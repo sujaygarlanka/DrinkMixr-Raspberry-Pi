@@ -2,8 +2,9 @@ import time
 import subprocess
 import digitalio
 import board
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageOps
 import adafruit_rgb_display.ili9341 as ili9341
+from video import Video
 
 
 class Display:
@@ -90,6 +91,45 @@ class Display:
         self.drawImage()
         self.currentX += font.getsize(text)[0]
         
+    def displayImage(self, image_name, x=None, y=None, width=None, height=None):
+        if x == None:
+            x = self.currentX
+        if y == None:
+            y = self.currentY
+        if width == None:
+            width = self.width
+        if height == None:
+            height = self.height
+        
+        image = Image.open(image_name)
+         
+        # Scale the image to the smaller screen dimension
+        image_ratio = image.width / image.height
+        screen_ratio = width / height
+        if screen_ratio < image_ratio:
+            scaled_width = image.width * height // image.height
+            scaled_height = height
+        else:
+            scaled_width = width
+            scaled_height = image.height * width // image.width
+        image = image.resize((scaled_width, scaled_height), Image.BICUBIC)
+         
+        # Crop and center the image
+        xCrop = scaled_width // 2 - width // 2
+        yCrop = scaled_height // 2 - height // 2
+        image = image.crop((xCrop, yCrop, xCrop + width, yCrop + height))
+        
+        # Switched x and y because of rotated screen
+        self.disp.image(image, x=y, y=self.width-x-width)
+        
+    def displayVideo(self, file_path, width=None, height=None):
+        if width == None:
+            width = self.width
+        if height == None:
+            height = self.height
+        video = Video(self.disp, width, height, file_path)
+        video.run()
+        
     def clear(self, x=0, y=0, width=None, height=None):
         if width == None:
             width = self.width
@@ -109,6 +149,7 @@ class Display:
         self.currentX = 0
         self.draw.rectangle((0, y, self.width, height), outline=0, fill=0)
         self.drawImage()
+        
  
     def drawImage(self):
         self.disp.image(self.image)

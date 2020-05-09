@@ -1,6 +1,6 @@
-from API import API
-from Display import Display
-from Distance import Distance
+from api import API
+from display import Display
+from distance import Distance
 import RPi.GPIO as GPIO
 import time
 
@@ -68,24 +68,29 @@ def display_order(order):
   
 def main():
     order_just_dispensed = True
-    while True:
-        r = api.get_order()
-        if r.status_code == 200:
-            order = r.json()
-            display_order(order)
-            display.println()
-            display.print("Waiting to detect a cup...")
-            while (distance.get() > 20.0):
-                time.sleep(.5)
-            display.clearln()
-            display.println("Dispensing...")
-            dispense_drink(order['dispense_instructions'])
-            order_just_dispensed = True
-        else:
-            if order_just_dispensed:
-                display.clear()
-                display.println("Waiting for an order...")
-                order_just_dispensed = False
+    display.displayVideo("./media/loading.gif")
+#     while True:
+#         try:
+#             r = api.get_order()
+#             if r.status_code == 200:
+#                 order = r.json()
+#                 display_order(order)
+#                 display.println()
+#                 display.print("Waiting to detect a cup...")
+#                 while (distance.get() > 20.0):
+#                     time.sleep(.5)
+#                 display.clearln()
+#                 display.println("Dispensing...")
+#                 dispense_drink(order['dispense_instructions'])
+#                 order_just_dispensed = True
+#             else:
+#                 if order_just_dispensed:
+#                     display.clear()
+#                     display.println("Waiting for an order...")
+#                     display.displayImage("./media/drink.png", x=85, y=40, height=200, width=150)
+#                     order_just_dispensed = False
+#         except:
+#             display.displayVideo("./media")
         
 if __name__ == "__main__":
     main()
