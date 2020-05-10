@@ -94,7 +94,7 @@ def main():
                 else:
                     if should_refresh_screen:
                         display.clear()
-                        display.println("Waiting for an order...")
+                        display.println("Waiting for an order te...")
                         display.displayImage("/home/pi/DrinkMixr-Raspberry-Pi/media/drink.png", x=85, y=40, height=200, width=150)
                         should_refresh_screen = False
             except:
