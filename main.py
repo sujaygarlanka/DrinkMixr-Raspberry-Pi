@@ -87,8 +87,9 @@ def main():
                     display.print("Waiting to detect a cup...")
                     while (distance.get() > 20.0):
                         time.sleep(.5)
-                    display.clearln()
-                    display.println("Dispensing...")
+                    display_order(order)
+                    display.println()
+                    display.print("Dispensing...")
                     dispense_drink(order['dispense_instructions'])
                     should_refresh_screen = True
                 else:
