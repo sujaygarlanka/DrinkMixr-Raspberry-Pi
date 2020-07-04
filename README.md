@@ -9,4 +9,3 @@
   - Install requirements.txt
 - Setup Shell script
   - Give shell script permission to run by using command `sudo chmod +x continuous_deployment.sh`
-test
