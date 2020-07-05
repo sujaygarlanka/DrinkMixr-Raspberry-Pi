@@ -1,4 +1,5 @@
 #!/bin/bash
+echo "Start continuous deployment script"
 python3 main.py &
 while true
 do
