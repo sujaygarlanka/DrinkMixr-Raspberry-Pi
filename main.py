@@ -34,12 +34,17 @@ display = Display()
 distance = Distance(DISTANCE_SENSOR)
       
 def dispense_drink(order):
+    dispense_instructions = {}
     for item in order:
+        dispense_instructions[item["motor"]] = item["dispense_time"]
         control_motor(item["motor"], True)
-        print(item["motor"])
-        time.sleep(item["dispense_time"])
-        control_motor(item["motor"], False)
-        print("turning off")
+    while bool(dispense_instructions):
+        motor = min(dispense_instructions, key=dispense_instructions.get)
+        min_time = dispense_instructions[motor]
+        time.sleep(min_time)
+        control_motor(motor, False)
+        del dispense_instructions[motor]
+        dispense_instructions = {k:v-min_time for (k,v) in dispense_instructions.items()}
         
 
 def control_motor(motor, on):
