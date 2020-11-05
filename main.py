@@ -38,6 +38,7 @@ def dispense_drink(order):
     for item in order:
         dispense_instructions[item["motor"]] = item["dispense_time"]
         control_motor(item["motor"], True)
+        print("turning on " + item["motor"])
     while bool(dispense_instructions):
         motor = min(dispense_instructions, key=dispense_instructions.get)
         min_time = dispense_instructions[motor]
@@ -45,8 +46,8 @@ def dispense_drink(order):
         control_motor(motor, False)
         del dispense_instructions[motor]
         dispense_instructions = {k:v-min_time for (k,v) in dispense_instructions.items()}
+        print("turning off " + motor)
         
-
 def control_motor(motor, on):
     if motor == "1":
         GPIO.output(MOTOR_1, not on)
