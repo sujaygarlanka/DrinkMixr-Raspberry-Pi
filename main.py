@@ -92,11 +92,17 @@ def wifi_connected():
     if "wlan0" in output:
         return True
     return False
+
+def get_ip_address():
+    stream = os.popen("ifconfig wlan0 | grep inet | awk '{ print $2 }'")
+    output = stream.read()
+    return output.splitlines()[0]
   
 def main():
     should_refresh_screen = True
     while True:
         if wifi_connected():
+            ip = get_ip_address()
             try:
                 r = api.get_order()
                 if r.status_code == 200:
@@ -114,8 +120,10 @@ def main():
                 else:
                     if should_refresh_screen:
                         display.clear()
+                        display.println(font_size=5)
+                        display.println(ip, font_size=12, color="#FFFF00") 
                         display.println("Waiting for an order...")
-                        display.displayImage("/home/pi/DrinkMixr-Raspberry-Pi/media/drink.png", x=85, y=40, height=200, width=150)
+                        display.displayImage("/home/pi/DrinkMixr-Raspberry-Pi/media/drink.png", x=95, y=50, height=170, width=119)
                         should_refresh_screen = False
             except:
                 display.displayVideo("/home/pi/DrinkMixr-Raspberry-Pi/media/loading_2.gif")
