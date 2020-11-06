@@ -87,6 +87,7 @@ def main():
             try:
                 r = api.get_order()
                 if r.status_code == 200:
+                    print("hello")
                     order = r.json()
                     display_order(order)
                     display.println()
