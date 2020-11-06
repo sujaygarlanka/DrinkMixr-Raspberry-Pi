@@ -42,7 +42,7 @@ def dispense_drink(order):
         if (len(order) > 0):
             instruction = order.pop()
             dispense_instructions[instruction["motor"]] = instruction["dispense_time"]
-            # control_motor(instruction["motor"], True)
+            control_motor(instruction["motor"], True)
             print("turning on " + instruction["motor"])
 
     # Dispense from motors in dispense instructions. As one finishes another is added
@@ -50,7 +50,7 @@ def dispense_drink(order):
         motor = min(dispense_instructions, key=dispense_instructions.get)
         min_time = dispense_instructions[motor]
         time.sleep(min_time)
-        # control_motor(motor, False)
+        control_motor(motor, False)
         del dispense_instructions[motor]
         dispense_instructions = {k:v-min_time for (k,v) in dispense_instructions.items()}
         print("turning off " + motor)
@@ -58,7 +58,7 @@ def dispense_drink(order):
         if (len(order) > 0):
             instruction = order.pop()
             dispense_instructions[instruction["motor"]] = instruction["dispense_time"]
-            # control_motor(instruction["motor"], True)
+            control_motor(instruction["motor"], True)
             print("turning on " + instruction["motor"])
         
 def control_motor(motor, on):
